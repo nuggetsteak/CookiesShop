@@ -1,0 +1,120 @@
+# Challenge 1
+cookies = {
+    "C01": {"name": "Chocolate Chip Cookies", "price": 1.2, "stock": 10}
+}
+
+for code, details in cookies.items():
+    print(f"- {details['name']} ({code}): ${details['price']:.2f} | Stock: {details['stock']}")
+
+# Challenge 2
+while True:
+    choice = input("Choose your cookie by entering the code: ").strip().upper()
+    if choice in cookies:
+        break
+    else:
+        print(f"Invalid choice.")
+
+# Challenge 3
+
+# Cart list
+cart = []
+
+# Get cookie's details as the user has chosen 
+product = cookies[choice]
+
+# Verify quantity in order
+print(f"How many {product['name']} do you want?")
+quantity = int(input()) # integer
+
+# Not enough stock
+if quantity > product["stock"]:
+    print("Not enough cookies.")
+
+    # Enough stock (reduce stock and calculate total price)
+else:    
+    product["stock"] -= quantity
+    totalprice = quantity * product["price"]
+
+    cart.append({
+        "name": product["name"],
+        "quantity": quantity,
+        "price": product["price"],
+        "total": product["price"] * quantity
+        })
+    print(f"Added {quantity} {product['name']} to your cart.")
+
+    print(f"Product: {product['name']}")
+    print(f"Total cookies: {quantity}")
+    print(f"Total price: ${totalprice:.2f}")
+
+# Challenge 4
+
+# Loop start
+while True:
+
+# Yes/No
+    buymore = input("Do you want to buy more? (Yes/No): ").strip().lower()
+
+    if buymore != "yes":
+        break
+
+    if buymore == "yes":
+
+        # Show menu
+        for code, details in cookies.items():
+            print(f"- {details['name']} ({code}): ${details['price']} | Stock :{details['stock']}")
+
+        # Validate menu
+        while True:
+            choice = input("Choose your cookie by entering the code: ").strip().upper()
+        
+            # Invalid code
+            if choice not in cookies:
+                print("Please try again.")
+                continue
+            
+            # Out-of-stock
+            product = cookies[choice]
+        
+            if product["stock"] == 0:
+                print("Sorry, this product is out of stock.")
+                continue
+            
+            break
+
+        # Quantity input
+        while True:
+            quantity = int(input(f"How many {product['name']} do you want? "))
+
+            if quantity > product["stock"]:
+                print("Not enough stock. Please choose other products.")
+            
+            else:
+                break
+
+        # Reduce stock + append
+        product["stock"] -= quantity
+        cart.append({
+            "name": product["name"],
+            "quantity": quantity,
+            "price": product["price"],
+            "total": product["price"] * quantity
+        })
+        print(f"Added {quantity} {product['name']} to your cart.")
+
+# Final receipt
+if cart:
+    print("")
+    print("RECEIPT")
+    print ("==================================")
+
+    for item in cart:
+        print(f"{item['name']} - ${item['price']:.2f}")
+        print(f"Quantity: {item['quantity']}")
+        print(f"Total Price: ${item['total']:.2f}")
+
+    print ("==================================")
+    print ("Thank you for purchasing with us.")
+
+else:
+    print("Thank you. Please come again.")
